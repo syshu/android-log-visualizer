@@ -1,0 +1,13 @@
+* Timeline
+** getBand(:number)
+*** 0 for the uppest, 2 for the downest, in this case
+
+* Band
+** getCenterVisibleDate :Date
+*** center of the time, each bands' should be about same
+** getMax|MinVisibleDate :Date
+*** border time shown, each bands' should be different
+** getMax|MinDate :Date
+*** may be rendered border, but could be hidden because out of the position
+** scrollToCenter (Date)
+*** scroll to this position, the center is the specified date

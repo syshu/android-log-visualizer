@@ -1,0 +1,12 @@
+@import "../../node_modules../../node_modules/font-awesome/css/font-awesome.css";
+@import '../../node_modules/antd/dist/antd.css';
+@import './css/main.css';
+
+#components-layout-demo-top .logo {
+    width: 120px;
+    height: 31px;
+    background: #333;
+    border-radius: 6px;
+    margin: 16px 24px 16px 0;
+    float: left;
+}

@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+.DS_Store
+*.log
+.idea
+.vscode
+test/res
+.projectile
+jsconfig.json
+settings.json
