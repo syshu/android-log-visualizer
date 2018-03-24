@@ -7,7 +7,9 @@ import listApplogFiles from './list-applog-files.js'
 
 // (logFolder) ==> (rule) => TLEvents
 export default async (logFolder) => {
+    // Log folder ==> log file paths.
     const logFilePaths = await listApplogFiles(logFolder)
+    // Log file paths ==> 
     const getLogsByTagAndKeywords = await adaptParamTxtToPath(indexLogFinder)(...logFilePaths)
     const combinedResolver = combineResolvers({ INST: instEventResolver,
                                                 DURA: duraEventResolver, })
