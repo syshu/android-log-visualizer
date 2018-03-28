@@ -31,3 +31,18 @@ body{
 		}
 	}
 }
+
+.add-rule-modal {
+	width: 100px;
+	height: 100px;
+	background-color: red;
+}
+
+div.manage-rules-div {
+	ul {
+		display: block;
+		li {
+			display: block;
+		}
+	}
+}

@@ -7,6 +7,7 @@ import TLEventStore from '../scripts/tl-event-store'
 import { send } from 'redux-electron-ipc'
 import { createAction, createActions } from 'redux-actions'
 import RuleTag from '../components/RuleTag'
+import ManageRulesDiv from './ManageRulesDiv'
 
 const { Header, Content, Footer, Sider } = Layout
 const { Option } = Select
@@ -172,11 +173,12 @@ class Tab extends Component {
                 <Button shape="circle"
                         icon="plus"
                         onClick={() => {this.setState({ addRuleVisible: true })}} />
-                <Modal title="添加Rule"
+                <Modal title="定义事件"
                        visible={this.state.addRuleVisible}
+                       footer={[<Button key="close" onClick={() => {this.setState({ addRuleVisible: false })}}>Close</Button>]}
                        onOk={null}
                        onCancel={() => {this.setState({ addRuleVisible: false })}} >
-                    <Select />
+                    <ManageRulesDiv />
                 </Modal>
                 <br />
                 <strong style={{ marginRight: 8 }}>显示的事件种类:</strong>

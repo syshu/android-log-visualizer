@@ -26,4 +26,14 @@ body {
       justify-content: space-between;
       align-items: center; }
 
+.add-rule-modal {
+  width: 100px;
+  height: 100px;
+  background-color: red; }
+
+div.manage-rules-div ul {
+  display: block; }
+  div.manage-rules-div ul li {
+    display: block; }
+
 /*# sourceMappingURL=main.css.map */
