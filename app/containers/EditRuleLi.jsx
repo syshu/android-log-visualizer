@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Select } from 'antd'
+import { Select, Card } from 'antd'
 const { Option } = Select
 
 /**
@@ -13,17 +13,18 @@ const { Option } = Select
 class EditRuleLi extends Component {
   constructor (props) {
     super(props)
+    this.state = { rule: props.rule }
   }
 
   render () {
     return (
-      <li>
+      <li><Card>
         <Select defaultValue={this.props.rule.type} onChange={null}>
           <Option key="INST">简单事件</Option>
           <Option key="DURA">持续性事件</Option>
         </Select>
-        {((RuleType) => (<RuleType rule={this.props.rule} />))(require('./EditRuleLiDetails/' + this.props.rule.type))}
-      </li>
+        {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={this.setState.bind(this)} />))(require('./EditRuleLiDetails/' + this.props.rule.type))}
+      </Card></li>
     )
   }
 }

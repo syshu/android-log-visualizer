@@ -31,9 +31,14 @@ body {
   height: 100px;
   background-color: red; }
 
-div.manage-rules-div ul {
+.manage-rules-div ul {
   display: block; }
-  div.manage-rules-div ul li {
+  .manage-rules-div ul li {
+    margin: 0.5em 0;
     display: block; }
+    .manage-rules-div ul li .detail {
+      display: flex;
+      width: 100%;
+      flex-flow: row nowrap; }
 
 /*# sourceMappingURL=main.css.map */

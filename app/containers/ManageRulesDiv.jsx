@@ -21,6 +21,7 @@ class ManageRulesDiv extends Component {
       </div>
     )
   }
+
 }
 
 /**
