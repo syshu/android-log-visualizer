@@ -35,7 +35,7 @@ async function isApplogFile(file) {
     if (file.includes('applogcat')) {
         return true
     }
-    if (file.includes('eventslogcat')) {
+    if (file.includes('eventslogcat') || file.includes('dump')) {
         return false
     }
     const str = await fsp.readFile(file, 'utf-8')
