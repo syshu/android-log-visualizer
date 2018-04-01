@@ -93,3 +93,33 @@ describe('sub-reducer profiles', function () {
                                                        rule5:{ hide: false }, } } })
     })
 })
+describe('sub-reducer rules', function () {
+    it('SAVE_RULE change existing rule', function () {
+        reducer({rules:
+            {['rule1']:
+                {content1: 'content of rule1'},
+            }
+        }, {
+            type: 'SAVE_RULE',
+            payload: {content2: 'modified content'},
+            meta: {ruleID: 'rule1'},
+        })
+            .should.containDeep({
+            rules: {
+                rule1: { content2: 'modified content' },
+            }
+        })
+    })
+    it('SAVE_RULE create new rule', function () {
+        reducer({rules:{
+            rule1: {},
+        }}, {
+            type: 'SAVE_RULE',
+            payload: {content: 'content'},
+            meta: {ruleID: 'newRule'},
+        })
+            .should.containDeep({rules:{
+                newRule: {content: 'content'},
+        }})
+    })
+})

@@ -4,7 +4,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Select, Card } from 'antd'
+import { Select, Card, Button } from 'antd'
+import _ from 'underscore'
 const { Option } = Select
 
 /**
@@ -16,6 +17,24 @@ class EditRuleLi extends Component {
     this.state = { rule: props.rule }
   }
 
+  get modified () {
+    return !_.isEqual(this.props.rule, this.state.rule)
+  }
+
+  set modified (bool) {
+    if (!bool) {
+      this.setState({
+        rule: this.props.rule,
+      })
+    } else {
+      throw new Error('Should be false.')
+    }
+  }
+
+  save () {
+    this.props.saveRule(this.state.rule)
+  }
+
   render () {
     return (
       <li><Card>
@@ -24,6 +43,8 @@ class EditRuleLi extends Component {
           <Option key="DURA">持续性事件</Option>
         </Select>
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={this.setState.bind(this)} />))(require('./EditRuleLiDetails/' + this.props.rule.type))}
+        <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
+        <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />
       </Card></li>
     )
   }
@@ -39,4 +60,19 @@ function mapStateToProps (state, { rule }) {
   }
 }
 
-export default connect(mapStateToProps)(EditRuleLi)
+/**
+ * @param {Function} dispatch
+ * @param {Object} ownProps { rule } The rule id passed in.
+ * @action SAVE_RULE
+ */
+function mapDispatchToProps (dispatch, { rule }) {
+  return {
+    saveRule: (ruleObject) => {dispatch({
+      type: 'SAVE_RULE',
+      payload: rule,
+      meta: {ruleID: rule},
+    })}
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditRuleLi)

@@ -79,6 +79,8 @@ export default function (state = defaultState, { type, payload, meta, error }) {
             newProfile[ruleID] = oldProfile[ruleID] || {hide: false}
         }
         return setIn(state, ['profiles', meta.profile], newProfile)
+    case 'SAVE_RULE':
+        return setIn(state, ['rules', meta.ruleID], payload)
     default:
         return state
     }
