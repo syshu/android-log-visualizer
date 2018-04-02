@@ -44,7 +44,7 @@ class EditRuleLi extends Component {
   render () {
     return (
       <li><Card>
-        <Select defaultValue={this.props.rule.type} onChange={(value) => {this.ruleType = value}}>
+        <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}}>
           <Option key="INST">简单事件</Option>
           <Option key="DURA">持续性事件</Option>
         </Select>
