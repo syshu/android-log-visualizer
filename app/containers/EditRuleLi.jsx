@@ -14,7 +14,7 @@ const { Option } = Select
 class EditRuleLi extends Component {
   constructor (props) {
     super(props)
-    this.state = { rule: props.rule }
+    this.state = { rule: props.rule, another: 'a' }
   }
 
   get modified () {
@@ -42,7 +42,7 @@ class EditRuleLi extends Component {
           <Option key="INST">简单事件</Option>
           <Option key="DURA">持续性事件</Option>
         </Select>
-        {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={this.setState.bind(this)} />))(require('./EditRuleLiDetails/' + this.props.rule.type))}
+        {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.props.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
         <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />
       </Card></li>
@@ -69,7 +69,7 @@ function mapDispatchToProps (dispatch, { rule }) {
   return {
     saveRule: (ruleObject) => {dispatch({
       type: 'SAVE_RULE',
-      payload: rule,
+      payload: ruleObject,
       meta: {ruleID: rule},
     })}
   }
