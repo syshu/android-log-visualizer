@@ -21,7 +21,7 @@ let setIn = Immutable.setIn
 let INST = ({rule, receiveRule}) => (
   <div className="detail">
     <Input placeholder="title" value={rule.meta.title} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'title'], target.value))} />
-    <Input placeholder="keyword TODO keywords" value={rule.meta.keywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'keywords'], [target.value]))} />
+    <Input placeholder="keyword TODO keywords" value={rule.meta.keywords && rule.meta.keywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'keywords'], [target.value]))} />
     <Input placeholder="tag" value={rule.meta.tag} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'tag'], target.value))} />
   </div>
 )
