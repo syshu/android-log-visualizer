@@ -1,5 +1,6 @@
 /**
  * @example <EditRuleLi rule={ruleID: string} />
+ * @prop {string} rule The rule id, this connected component will fetch the rule object from the store by the rule id.
  */
 
 import React, { Component } from 'react'
@@ -9,7 +10,7 @@ import _ from 'underscore'
 const { Option } = Select
 
 /**
- * @prop rule: {type: string, meta: Object}
+ * @prop rule: {id: string, type: string, meta: Object}
  */
 class EditRuleLi extends Component {
   constructor (props) {
@@ -82,3 +83,4 @@ function mapDispatchToProps (dispatch, { rule }) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditRuleLi)
+export const Wrapped = EditRuleLi

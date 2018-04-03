@@ -5,6 +5,7 @@
 import React, { Component } from 'react'
 import EditRuleLi from './EditRuleLi'
 import { connect } from 'react-redux'
+import NewEditRuleLi from './NewEditRuleLi'
 
 class ManageRulesDiv extends Component {
   constructor (props) {
@@ -17,6 +18,7 @@ class ManageRulesDiv extends Component {
         <h1>编辑事件定义</h1>
         <ul>
           {this.props.rules.map((rule) => (<EditRuleLi key={rule} rule={rule} />))}
+          <NewEditRuleLi />
         </ul>
       </div>
     )
