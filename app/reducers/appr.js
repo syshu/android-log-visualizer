@@ -1,3 +1,13 @@
+/**
+ * Below are example actions.
+ * Getting Result *
+ * @typedef {{type: 'LOAD', payload?: Error, meta: {tab: string, logBase: string}, error: boolean}} Action.LOAD The result that is the logs successfully loaded.
+ * @typedef {{type: 'FETCH', payload: Array, meta: {rule: {id: string}}}} Action.FETCH Worker returns result.
+ * Rule Management *
+ * @typedef {{type: 'SAVE_RULE', payload: RuleObject, meta: {ruleID: string}}} Action.SAVE_RULE
+ * @typedef {{type: 'DELETE_RULE', meta: {ruleID: string}}} Action.DELETE_RULE
+ */
+
 import { static as Immutable } from 'seamless-immutable'
 const { merge, setIn } = Immutable
 
@@ -32,6 +42,7 @@ const defaultState={
 }
 
 export default function (state = defaultState, { type, payload, meta, error }) {
+    //console.info('The store state is:', state)
     switch (type) {
         case 'FETCH':
             return setIn(state, ['events', meta.logBase, (meta.rule||meta.rules[0]).id], payload||'')
@@ -42,7 +53,7 @@ export default function (state = defaultState, { type, payload, meta, error }) {
                     [meta.logBase]:{ ...(state.events[meta.logBase]), [(meta.rule||meta.rules[0]).id]: payload }
                 },
             }*/
-        case 'LOAD'://payload:true/undefined meta.tab meta.logBase meta.worker
+        case 'LOAD': { //payload:true/undefined meta.tab meta.logBase meta.worker
             const tabs = {...state.tabs}
             tabs[meta.tab]={
                 ...state.tabs[meta.tab],
@@ -59,6 +70,7 @@ export default function (state = defaultState, { type, payload, meta, error }) {
                 loading:!payload,
                 loaded:!error&&payload,
             })*/
+        }
         case 'CHANGE_RULE_VISIBILITY'://payload:visibility, meta.rule:string, meta.profile:string
             //let newProfileObj = state.profiles[meta.profile]
             //const index = newProfileObj.findIndex(indNHide=>indNHide.ind===meta.rule)
@@ -70,18 +82,28 @@ export default function (state = defaultState, { type, payload, meta, error }) {
             return setIn(state, ['tabs', meta.tab, 'autoFetch'], payload)
         case 'BAD_REQUEST':
             return state
-    case 'CHANGE_PROFILE'://payload:propName, meta.tab:tabID
-        return setIn(state, ['tabs', meta.tab, 'currProfile'], payload)
-    case 'SET_RULES_OF_PROFILE': //payload:ruleIDs, meta.profile:currProfileName
-        const newProfile = {}
-        const oldProfile = state.profiles[meta.profile]
-        for (let ruleID of payload) {
-            newProfile[ruleID] = oldProfile[ruleID] || {hide: false}
+        case 'CHANGE_PROFILE'://payload:propName, meta.tab:tabID
+            return setIn(state, ['tabs', meta.tab, 'currProfile'], payload)
+        case 'SET_RULES_OF_PROFILE': { //payload:ruleIDs, meta.profile:currProfileName
+            const newProfile = {}
+            const oldProfile = state.profiles[meta.profile]
+            for (let ruleID of payload) {
+                newProfile[ruleID] = oldProfile[ruleID] || {hide: false}
+            }
+            return setIn(state, ['profiles', meta.profile], newProfile)
         }
-        return setIn(state, ['profiles', meta.profile], newProfile)
-    case 'SAVE_RULE':
-        return setIn(state, ['rules', meta.ruleID], payload)
-    default:
-        return state
+        case 'SAVE_RULE':
+            return setIn(state, ['rules', meta.ruleID], payload)
+        case 'DELETE_RULE': {
+            const newState = merge(state, {})
+            if (newState.rules[meta.ruleID]) {delete newState.rules[meta.ruleID]}
+            else {console.warn('Attempting to delete a not existing rule from the store:', meta.ruleID)}
+            for (let profile in newState.profiles) {
+                if (newState.profiles[profile][meta.ruleID]) {delete newState.profiles[profile][meta.ruleID]}
+            }
+            return newState
+        }
+        default:
+            return state
     }
 }

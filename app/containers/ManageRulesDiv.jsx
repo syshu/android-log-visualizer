@@ -18,18 +18,32 @@ class ManageRulesDiv extends Component {
     }
   }
 
+  /**
+   * Add a rule card for further saving.
+   */
   addRule () {
     this.setState({
       rules: [...this.state.rules, uuid()]
     })
   }
 
+  /**
+   * Delete from the store and the dialog.
+   * @param {string} ruleID is the rule id you want to delete.
+   */
+  deleteRule (ruleID) {
+    this.setState({
+      rules: this.state.rules.filter((rule) => rule !== ruleID)
+    })
+    this.props.deleteRule(ruleID)
+  } //TODO
+
   render () {
     return (
       <div className="manage-rules-div">
         <p>编辑事件定义</p>
         <ul>
-          {this.state.rules.map((rule) => (<EditRuleLi key={rule} rule={rule} />))}
+          {this.state.rules.map((rule) => (<EditRuleLi key={rule} rule={rule} onRemove={this.deleteRule.bind(this)}/>))}
         </ul>
         <Button onClick={this.addRule.bind(this)} >新增事件</Button>
       </div>
@@ -47,8 +61,13 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-function mapDispatchToProps () {
-  return {}
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    deleteRule: (ruleID) => {dispatch({
+      type: 'DELETE_RULE',
+      meta: {ruleID: ruleID}
+    })},
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageRulesDiv)

@@ -122,4 +122,26 @@ describe('sub-reducer rules', function () {
                 newRule: {content: 'content'},
         }})
     })
+
+    it('DELETE_RULE', function () {
+        reducer({
+            rules: {
+                rule1: {}, //To be deleted.
+                rule2: {},
+            },
+            profiles: {
+                profile1: { rule1: {}, rule2: {}, }, //1 rule will be deleted.
+                profile2: {rule3: {}}, //None will be deleted.
+                profile3: {rule1: {}}, //Will delete 1 rule to be an empty object.
+            }
+        }, { type: 'DELETE_RULE', meta: {ruleID: 'rule1'}})
+        .should.containDeep({
+            rules: { rule1: undefined, rule2: {} },
+            profiles: {
+                profile1: {rule1: undefined, rule2: {}},
+                profile2: {rule3: {}},
+                profile3: {rule1: undefined},
+            }
+        })
+    })
 })

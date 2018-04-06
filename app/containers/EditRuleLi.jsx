@@ -1,6 +1,7 @@
 /**
  * @example <EditRuleLi rule={ruleID: string} />
  * @prop {string} rule The rule id, this connected component will fetch the rule object from the store by the rule id. It can be not recorded in the store, indicating that this is a new rule to be further added to the store.
+ * @prop {(ruleID: string) => void} onRemove is the callback function that when the [delete] button is pressed, it will call up to the parent component to process this.
  */
 
 import React, { Component } from 'react'
@@ -11,6 +12,7 @@ const { Option } = Select
 
 /**
  * @prop rule: {id: string, type: string, meta: Object}
+ * @prop {void => void} onRemove is passed and binded with the rule id in mapStateToProps, so this onRemove takes no parameter.
  */
 class EditRuleLi extends Component {
   constructor (props) {
@@ -42,6 +44,10 @@ class EditRuleLi extends Component {
     })
   }
 
+  deleteRule () {
+    this.props.deleteRule(this.state.rule.id)
+  }
+
   render () {
     return (
       <li><Card>
@@ -52,6 +58,7 @@ class EditRuleLi extends Component {
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
         <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的时间定义</span>}
+        {!this.props.isNewRule && <Button onClick={this.props.onRemove.bind(this)}>删除</Button>}
       </Card></li>
     )
   }
@@ -61,11 +68,12 @@ class EditRuleLi extends Component {
  * @param {Object} ownProps: {rule: string}
  * @returns {Object} Wrapped component's props: {rule: {type: string, meta: Object}}
  */
-function mapStateToProps (state, { rule }) {
+function mapStateToProps (state, { rule, onRemove }) {
   const ruleObject = state.app.rules[rule]
   return {
     rule: ruleObject || { id: rule, type: undefined, meta: {} },
     isNewRule: !ruleObject,
+    onRemove: onRemove.bind(null, rule),
   }
 }
 
