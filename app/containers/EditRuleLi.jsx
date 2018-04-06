@@ -1,6 +1,6 @@
 /**
  * @example <EditRuleLi rule={ruleID: string} />
- * @prop {string} rule The rule id, this connected component will fetch the rule object from the store by the rule id.
+ * @prop {string} rule The rule id, this connected component will fetch the rule object from the store by the rule id. It can be not recorded in the store, indicating that this is a new rule to be further added to the store.
  */
 
 import React, { Component } from 'react'
@@ -51,7 +51,7 @@ class EditRuleLi extends Component {
         </Select>
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
-        <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />
+        <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的时间定义</span>}
       </Card></li>
     )
   }
@@ -62,8 +62,10 @@ class EditRuleLi extends Component {
  * @returns {Object} Wrapped component's props: {rule: {type: string, meta: Object}}
  */
 function mapStateToProps (state, { rule }) {
+  const ruleObject = state.app.rules[rule]
   return {
-    rule: state.app.rules[rule],
+    rule: ruleObject || { id: rule, type: undefined, meta: {} },
+    isNewRule: !ruleObject,
   }
 }
 
