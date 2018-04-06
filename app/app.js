@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
-import configureStore from './store';
+import store from './store';
 import ipcPromise from 'ipc-promise'
 import electron from 'electron'
 
@@ -29,7 +29,6 @@ const initialState = {
         exam1: 1
     }
 };
-const store = configureStore();
 console.log('state after creating store', store.getState())
 const routerHistory = syncHistoryWithStore(hashHistory, store);
 const rootElement = document.querySelector(document.currentScript.getAttribute('data-container'));

@@ -29,8 +29,10 @@ const composeEnhancers = (() => {
   return compose;
 })();
 
-export default function configureStore(initialState) {
+function configureStore(initialState) {
     //const enhancer = composeEnhancers(applyMiddleware(...middlewares), persistState())
     const enhancer = applyMiddleware(...middlewares)
     return createStore(reducer, initialState, enhancer);
 }
+
+export default configureStore()

@@ -8,8 +8,9 @@
  * @typedef {{type: 'DELETE_RULE', meta: {ruleID: string}}} Action.DELETE_RULE
  */
 
-import { static as Immutable } from 'seamless-immutable'
+import { static as Immutable, asMutable } from 'seamless-immutable'
 const { merge, setIn } = Immutable
+import _ from 'underscore'
 
 const defaultState={
     app: { currentTab: '0',
@@ -42,7 +43,7 @@ const defaultState={
 }
 
 export default function (state = defaultState, { type, payload, meta, error }) {
-    //console.info('The store state is:', state)
+    console.info('The store state is:', state)
     switch (type) {
         case 'FETCH':
             return setIn(state, ['events', meta.logBase, (meta.rule||meta.rules[0]).id], payload||'')
@@ -95,13 +96,21 @@ export default function (state = defaultState, { type, payload, meta, error }) {
         case 'SAVE_RULE':
             return setIn(state, ['rules', meta.ruleID], payload)
         case 'DELETE_RULE': {
-            const newState = merge(state, {})
+            /*
+            const newState = asMutable(_.clone(state))
             if (newState.rules[meta.ruleID]) {delete newState.rules[meta.ruleID]}
             else {console.warn('Attempting to delete a not existing rule from the store:', meta.ruleID)}
             for (let profile in newState.profiles) {
                 if (newState.profiles[profile][meta.ruleID]) {delete newState.profiles[profile][meta.ruleID]}
             }
             return newState
+            */
+           const newState = {
+               ...state,
+               rules: _.omit(state.rules, meta.ruleID),
+               profiles: _.mapObject(state.profiles, profile => _.omit(profile, meta.ruleID)),
+           }
+           return newState
         }
         default:
             return state

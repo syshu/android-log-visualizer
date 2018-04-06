@@ -8,6 +8,7 @@ import { send } from 'redux-electron-ipc'
 import { createAction, createActions } from 'redux-actions'
 import RuleTag from '../components/RuleTag'
 import ManageRulesDiv from './ManageRulesDiv'
+import SelectProfileRule from './SelectProfileRule'
 
 const { Header, Content, Footer, Sider } = Layout
 const { Option } = Select
@@ -152,6 +153,8 @@ class Tab extends Component {
                         </Select>
                     </Col>
                     <Col span={12}>
+                        <SelectProfileRule profileId={this.props.currProfileName} style={{ width: '100%' }} />
+                    {/*
                         <Select
                             mode="multiple"
                             placeholder="选择该profile应该包含的rule"
@@ -164,6 +167,7 @@ class Tab extends Component {
                                 <Option key={ruleID}>{ruleID}</Option>
                             ))}
                         </Select>
+                        */}
                     </Col>
                 </Row>
                 自动搜索事件
@@ -283,7 +287,7 @@ export const actionCreatorMap = createActions({
             (rule:Object)=>({ rule })],
     CHANGE_PROFILE: [(tab:number, profile:string)=>(profile),
                      (tab:number)=>({ tab })],
-    SET_RULES_OF_PROFILE: [(currProfileName, ruleIDs:Array<number>)=>(ruleIDs),
+    SET_RULES_OF_PROFILE: [(currProfileName, ruleIDs:Array<string>)=>(ruleIDs),
                            (currProfileName:string)=>({ profile: currProfileName })]
 })
 
