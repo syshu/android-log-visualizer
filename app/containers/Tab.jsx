@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Layout, Menu, Tooltip, Icon, Alert, Row, Col, Select, Checkbox, Switch, Tag, Badge, Modal } from 'antd'
+import { Button, Layout, Menu, Tooltip, Icon, Alert, Row, Col, Select, Checkbox, Switch, Tag, Badge, Modal, Popover, Input } from 'antd'
 import SimileTimeline from '../components/Timeline'
 import { remote, ipcRenderer } from 'electron'
 import TLEventStore from '../scripts/tl-event-store'
@@ -9,6 +9,7 @@ import { createAction, createActions } from 'redux-actions'
 import RuleTag from '../components/RuleTag'
 import ManageRulesDiv from './ManageRulesDiv'
 import SelectProfileRule from './SelectProfileRule'
+import { selectRuleTitleById, isProfileExist } from '../selectors'
 
 const { Header, Content, Footer, Sider } = Layout
 const { Option } = Select
@@ -21,6 +22,8 @@ class Tab extends Component {
         this.state = {
             everLoaded: false,
             addRuleVisible: false,
+            addProfileName: '',
+            addProfileButtonDisabled: true,
         }
     }
 
@@ -153,21 +156,27 @@ class Tab extends Component {
                         </Select>
                     </Col>
                     <Col span={12}>
-                        <SelectProfileRule profileId={this.props.currProfileName} style={{ width: '100%' }} />
-                    {/*
-                        <Select
-                            mode="multiple"
-                            placeholder="选择该profile应该包含的rule"
-                            defaultValue={this.getCurrProfsRules().map(rule=>rule.id)}
-                            onChange={(ruleIDs)=>{this.props.setRulesOfProfile(this.props.currProfileName, ruleIDs)}}
-                            style={{ width: '100%' }}
-                            
+                        <Popover
+                            content={<div>
+                                <Input placeholder="输入一个名字来代表这类问题" value={this.state.addProfileName} onChange={(e) => {
+                                    this.setState({
+                                        addProfileName: e.target.value,
+                                        addProfileButtonDisabled: !e.target.value.length || isProfileExist(e.target.value)
+                                    })
+                                    }} />
+                                <Button onClick={() => {
+                                    this.setState({addProfileName: ''})
+                                    this.props.addProfile(this.state.addProfileName)
+                                    }}
+                                    disabled={this.state.addProfileButtonDisabled}
+                                >添加</Button>
+                            </div>}
+                            title="添加要分析的一类问题"
+                            trigger="click"
                         >
-                            {Object.keys(this.props.ruleObjs).map(ruleID=>(
-                                <Option key={ruleID}>{ruleID}</Option>
-                            ))}
-                        </Select>
-                        */}
+                            <Button shape="circle" icon="plus" />
+                        </Popover>
+                        <SelectProfileRule profileId={this.props.currProfileName} style={{ width: '80%' }} />
                     </Col>
                 </Row>
                 自动搜索事件
@@ -189,23 +198,11 @@ class Tab extends Component {
                 {
                     Object.keys(this.getCurrProfile())
                         .map(ruleID=>(
-                            /*
-                               <CheckableTag
-                               key={ruleIndAndHide.ind}
-                               checked={!ruleIndAndHide.hide}
-                               onChange={
-                               checked => this.props.changeRuleVisibility(this.props.currProfileName, ruleIndAndHide.ind, checked)
-                               }
-                               >
-                               <Badge status={this.resolveFetchingStatus(ruleIndAndHide.ind)}/>
-                               {this.props.ruleObjs[ruleIndAndHide.ind].title}
-                               </CheckableTag>
-                             */
                             <RuleTag key={ruleID}
                                      checked={!this.getCurrProfile()[ruleID].hide}
                                      onChange={checked => this.props.changeRuleVisibility(this.props.currProfileName, ruleID, checked)}
                                      status={this.resolveFetchingStatus(ruleID)}
-                                     title={ruleID}
+                                     title={selectRuleTitleById(ruleID)}
                             />
                         ))
                 }
@@ -288,7 +285,8 @@ export const actionCreatorMap = createActions({
     CHANGE_PROFILE: [(tab:number, profile:string)=>(profile),
                      (tab:number)=>({ tab })],
     SET_RULES_OF_PROFILE: [(currProfileName, ruleIDs:Array<string>)=>(ruleIDs),
-                           (currProfileName:string)=>({ profile: currProfileName })]
+                           (currProfileName:string)=>({ profile: currProfileName })],
+    ADD_PROFILE: [ profileName => undefined, profileName => ({ profile: profileName }) ],
 })
 
 export default connect(mapStateToProps, actionCreatorMap)(Tab)

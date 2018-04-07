@@ -51,13 +51,13 @@ class EditRuleLi extends Component {
   render () {
     return (
       <li><Card>
-        <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}}>
+        <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}} placeholder="事件类型" style={{minWidth: '8em'}}>
           <Option key="INST">简单事件</Option>
           <Option key="DURA">持续性事件</Option>
         </Select>
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
-        <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的时间定义</span>}
+        <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的事件定义</span>}
         {!this.props.isNewRule && <Button onClick={this.props.onRemove.bind(this)}>删除</Button>}
       </Card></li>
     )

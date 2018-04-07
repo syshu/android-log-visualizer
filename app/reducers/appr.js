@@ -112,6 +112,12 @@ export default function (state = defaultState, { type, payload, meta, error }) {
            }
            return newState
         }
+        case 'ADD_PROFILE': {
+            // meta: {profile: profileName}
+            if (state.profiles[meta.profile]) {return state}
+            state.profiles[meta.profile] = {}
+            return setIn(state, ['profiles', meta.profile], {})
+        }
         default:
             return state
     }

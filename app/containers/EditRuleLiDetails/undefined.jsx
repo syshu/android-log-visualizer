@@ -5,10 +5,11 @@
  */
 
 import React from 'react'
+import { Alert } from 'antd'
 
 function undefinedType () {
   return (
-    <p>{'选择一个事件类型，然后定义该怎么找到它'}</p>
+    <Alert message="选择一个事件类型，然后定义该怎么找到它" type="info" showIcon />
   )
 }
 
