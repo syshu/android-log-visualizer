@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Layout, Menu, Tooltip, Icon, Alert, Row, Col, Select, Checkbox, Switch, Tag, Badge, Modal, Popover, Input } from 'antd'
+import { Button, Layout, Menu, Tooltip, Icon, Alert, Row, Col, Select, Checkbox, Switch, Tag, Badge, Modal, Popover, Input, message } from 'antd'
 import SimileTimeline from '../components/Timeline'
 import { remote, ipcRenderer } from 'electron'
 import TLEventStore from '../scripts/tl-event-store'
@@ -10,6 +10,8 @@ import RuleTag from '../components/RuleTag'
 import ManageRulesDiv from './ManageRulesDiv'
 import SelectProfileRule from './SelectProfileRule'
 import { selectRuleTitleById, isProfileExist } from '../selectors'
+import storage from 'electron-json-storage'
+import store from '../store'
 
 const { Header, Content, Footer, Sider } = Layout
 const { Option } = Select
@@ -167,6 +169,7 @@ class Tab extends Component {
                                 <Button onClick={() => {
                                     this.setState({addProfileName: ''})
                                     this.props.addProfile(this.state.addProfileName)
+                                    message.success('已添加问题类别')
                                     }}
                                     disabled={this.state.addProfileButtonDisabled}
                                 >添加</Button>
@@ -179,6 +182,18 @@ class Tab extends Component {
                         <SelectProfileRule profileId={this.props.currProfileName} style={{ width: '80%' }} />
                     </Col>
                 </Row>
+                <Button onClick={() => {
+                    const rules = store.getState().app.rules
+                    const profiles = store.getState().app.profiles
+                    storage.set('rules', rules, (error) => {
+                        if (error) {console.error(error)}
+                        message.success('事件定义已保存')
+                    })
+                    storage.set('profiles', profiles, (error) => {
+                        if (error) {console.error(error)}
+                        message.success('问题类别已保存')
+                    })
+                }}>保存配置</Button>
                 自动搜索事件
                 <Switch defaultChecked={true}
                         onChange={status => this.props.setAutoFetch(this.props.tabID, status)}

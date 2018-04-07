@@ -118,6 +118,12 @@ export default function (state = defaultState, { type, payload, meta, error }) {
             state.profiles[meta.profile] = {}
             return setIn(state, ['profiles', meta.profile], {})
         }
+        case 'RESET_RULES': {
+            return {...state, rules: payload}
+        }
+        case 'RESET_PROFILES': {
+            return {...state, profiles: payload}
+        }
         default:
             return state
     }

@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import {
   Button, Card, Input, Checkbox, Icon, AutoComplete, message,
 } from 'antd';
+import storage from 'electron-json-storage'
+import { connect } from 'react-redux'
+import store from '../store'
 
 export default class Login extends Component {
 
@@ -9,68 +12,52 @@ export default class Login extends Component {
     super(...arguments);
     this.state = {
       loading: false,
+      loadedRules: false,
+      loadedProfiles: false,
     }
     this.users = ['user1', 'user2', 'user3'];
   }
 
+  componentDidMount () {
+    storage.has('rules', (error, hasKey) => {
+      if (error) console.error(error)
+      if (hasKey) {
+        storage.get('rules', (error, data) => {
+          if (error) console.error(error)
+          store.dispatch({
+            type: 'RESET_RULES',
+            payload: data,
+          })
+          this.setState({loadedRules: true})
+        })
+      } else {this.setState({loadedRules: true})}
+    })
+    storage.has('profiles', (error, hasKey) => {
+      if (error) console.error(error)
+      if (hasKey) {
+        storage.get('profiles', (error, data) => {
+          if (error) console.error(error)
+          store.dispatch({
+            type: 'RESET_PROFILES',
+            payload: data,
+          })
+          this.setState({loadedProfiles: true})
+        })
+      } else {this.setState({loadedProfiles: true})}
+    })
+    window.addEventListener('beforeunload', (event) => {
+      console.log('onbeforeunload')
+    })
+  }
+
   render() {
-    let { loading, username, password, autoLogin } = this.state;
+    let { loadedProfiles, loadedRules } = this.state;
     return (
-      <div className="login-body maxcontant">
-        <Card title="登录" className="login-card" >
-          <AutoComplete
-            style={{ width: '100%' }}
-            disabled={loading}
-            dataSource={this.users}
-            onChange={(username) => this.setState({ username })}
-            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-            children={<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" />}
-          />
-
-          <Input
-            prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-            disabled={loading}
-            type="password"
-            defaultValue={password}
-            placeholder="密码"
-            style={{ marginTop: 10 }}
-            onChange={(password) => this.setState({ password })}
-            onPressEnter={value => {
-              this.setState({ loading: true });
-              setTimeout(() => {
-                this.login()
-              }, 1000);
-            }}
-          />
-
-          <div className="loginSubmit">
-            <Checkbox
-              disabled={loading}
-              checked={autoLogin}
-              onChange={(e, bool) => {
-                this.setState({ autoLogin: !this.state.autoLogin }, () => {
-                  if (!autoLogin) {
-                    localStorage.setItem('user', JSON.stringify({ autoLogin: false }))
-                  }
-                })
-              }} >
-              自动登录
-								</Checkbox>
-            <Button
-              type="primary"
-              loading={loading}
-              onClick={() => {
-                this.setState({ loading: true });
-                setTimeout(() => {
-                  this.login()
-                }, 1000);
-              }}
-            >
-              登 录
-							</Button>
-          </div>
-
-        </Card>
+      <div>
+        <p>{(loadedProfiles && loadedRules) ? '配置载入完成' : '配置载入中'}</p>
+        <Button disabled={!loadedProfiles || !loadedRules} onClick={this.login.bind(this)}>
+          进入应用
+        </Button>
       </div>
     );
   }
@@ -83,7 +70,7 @@ export default class Login extends Component {
     //   return;
     // }
 
-    message.success(`登录成功! 欢迎`);
+    // message.success(`登录成功! 欢迎`);
     // 跳转页面 可传递参数
     this.props.router.push({ pathname: '/loggedin', state: { username, loggedIn: true } });
   }

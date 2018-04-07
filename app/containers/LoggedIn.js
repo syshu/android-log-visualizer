@@ -61,7 +61,7 @@ class LoggedIn extends Component {
                       </div>
                   </Content>
                   <Footer style={{ textAlign: 'center' }}>
-                      Developed with Ant Design
+                    https://github.com/syshu/android-log-visualizer
                   </Footer>
               </Layout>
           </Layout>
