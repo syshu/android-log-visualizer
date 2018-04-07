@@ -209,7 +209,7 @@ class Tab extends Component {
                             />
                         ))
                 }
-                {this.state.everLoaded && <SimileTimeline events={this.getUnhiddenEvents()}/>}
+                {this.state.everLoaded && <SimileTimeline events={this.getUnhiddenEvents()} style={{width:'100%', height:300}}/>}
             </div>
         )
         /*

@@ -1,9 +1,16 @@
+/**
+ * @type {React.Component}
+ * @prop {TLEvent[]} events
+ * @prop {Style} style
+ */
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class SimileTimeline extends Component {
     static propTypes : {
         events: PropTypes.array,
+        style: PropTypes.object,
     }
 
     constructor(props) {
@@ -53,7 +60,7 @@ class SimileTimeline extends Component {
     render() {
         return (
             <div>
-                <div ref="timeline" style={{width:'100%', height:300}}>
+                <div ref="timeline" style={this.props.style}>
                 </div>
             </div>
         )
@@ -94,7 +101,7 @@ class SimileTimeline extends Component {
         bandInfos[2].syncWith = 1
         bandInfos[2].highlight = true
         this.timeline = Timeline.create(this.refs.timeline, bandInfos)
-
+        this.props.events.length && this.moveToCenterOfEvents()
         window.addEventListener('resize', this.bindedHandleResize = this.handleResize.bind(this))
     }
 

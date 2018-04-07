@@ -7,23 +7,8 @@
 
 import React, { Component } from 'react'
 import { Select } from 'antd'
-import store from '../store'
 import { connect } from 'react-redux'
-
-/**
- * Select the title of specified rule.
- * @param {string} ruleId is the id of a rule.
- * @returns {string} The specified rule's title.
- */
-function selectRuleTitleById (ruleId) {
-  const state = store.getState()
-  try {
-    return state.app.rules[ruleId].meta.title
-  } catch (e) {
-    console.warn('selectRuleTitleById', e)
-    return undefined
-  }
-}
+import { selectRuleTitleById } from '../selectors'
 
 /**
  * @type {React.StatelessComponent}
