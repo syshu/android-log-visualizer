@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Layout, Menu, Tooltip, Icon, Tabs } from 'antd'
 import SimileTimeline from '../components/Timeline'
-import { remote, ipcRenderer } from 'electron'
+import { remote, ipcRenderer, shell } from 'electron'
 import { send } from 'redux-electron-ipc'
 import Tab from './Tab'
 
@@ -61,7 +61,7 @@ class LoggedIn extends Component {
                       </div>
                   </Content>
                   <Footer style={{ textAlign: 'center' }}>
-                    https://github.com/syshu/android-log-visualizer
+                    <a href="#" onClick={() => {shell.openExternal('https://github.com/syshu/android-log-visualizer')}}>https://github.com/syshu/android-log-visualizer</a>
                   </Footer>
               </Layout>
           </Layout>

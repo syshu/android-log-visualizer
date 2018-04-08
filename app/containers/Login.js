@@ -5,6 +5,7 @@ import {
 import storage from 'electron-json-storage'
 import { connect } from 'react-redux'
 import store from '../store'
+import { shell } from 'electron'
 
 export default class Login extends Component {
 
@@ -53,13 +54,19 @@ export default class Login extends Component {
   render() {
     let { loadedProfiles, loadedRules } = this.state;
     return (
-      <div>
+      <div className="launch-container">
+        <h1>Android Log Visualizer</h1>
         <p>{(loadedProfiles && loadedRules) ? '配置载入完成' : '配置载入中'}</p>
-        <Button disabled={!loadedProfiles || !loadedRules} onClick={this.login.bind(this)}>
+        <Button disabled={!loadedProfiles || !loadedRules} onClick={this.login.bind(this)} type="primary">
           进入应用
         </Button>
+        <p>获取帮助:<a href="#" onClick={this.openHelp.bind(this)}>https://github.com/syshu/android-log-visualizer/issues</a></p>
       </div>
     );
+  }
+
+  openHelp () {
+    shell.openExternal('https://github.com/syshu/android-log-visualizer/issues')
   }
 
   login() {

@@ -1,6 +1,6 @@
-appId: com.example.app
-copyright: Example co
-productName: MyApp
+appId: me.syshu.androidLogVisualizer
+copyright: syshu
+productName: Android Log Visualizer
 
 asar: true
 
