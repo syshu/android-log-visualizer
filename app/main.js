@@ -108,6 +108,7 @@ app.on('ready', async () => {
     });
   }
 
+  /*
   const trayPaht = path.join(__dirname, 'reducers/tray.png');
   // const trayPaht = '/reducers/tray.png';
   tray = new Tray(trayPaht)
@@ -119,6 +120,7 @@ app.on('ready', async () => {
   ])
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)
+  */
 
     workerWindow = new BrowserWindow({
         show: false//TODO
