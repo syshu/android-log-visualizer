@@ -8,7 +8,7 @@
 
 import React from 'react'
 import { Input } from 'antd'
-let Immutable = require('seamless-immutable').static
+const Immutable = require('seamless-immutable').static
 /**
  * @function setIn
  * @param {Object} object
@@ -21,7 +21,6 @@ let setIn = Immutable.setIn
 function DURA ({ rule, receiveRule }) {
   return (
     <div className="detail">
-    <Input placeholder="title" value={rule.meta.title} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'title'], target.value))} />
       <Input placeholder="starter keyword TODO keywords" value={rule.meta.starterKeywords && rule.meta.starterKeywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'starterKeywords'], [target.value]))} />
       <Input placeholder="ender keyword TODO keywords" value={rule.meta.enderKeywords && rule.meta.enderKeywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'enderKeywords'], [target.value]))} />
       <Input placeholder="classify by TODO strings" value={rule.meta.classifyBy && rule.meta.classifyBy[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'classifyBy'], [target.value]))} />

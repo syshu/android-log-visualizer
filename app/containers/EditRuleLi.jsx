@@ -6,9 +6,11 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Select, Card, Button } from 'antd'
+import { Select, Card, Button, Input } from 'antd'
 import _ from 'underscore'
 const { Option } = Select
+const Immutable = require('seamless-immutable').static
+const setIn = Immutable.setIn
 
 /**
  * @prop rule: {id: string, type: string, meta: Object}
@@ -55,6 +57,7 @@ class EditRuleLi extends Component {
           <Option key="INST">简单事件</Option>
           <Option key="DURA">持续性事件</Option>
         </Select>
+        <Input placeholder="title" value={this.state.rule.meta.title} onChange={({target}) => {this.setState((state) => ({rule: setIn(state.rule, ['meta', 'title'], target.value)}))}} style={{maxWidth: '10em'}}/>
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
         <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的事件定义</span>}

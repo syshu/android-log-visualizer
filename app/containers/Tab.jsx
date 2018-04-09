@@ -198,9 +198,9 @@ class Tab extends Component {
                 <Switch defaultChecked={true}
                         onChange={status => this.props.setAutoFetch(this.props.tabID, status)}
                         style={{margin:8}} />
-                <Button shape="circle"
-                        icon="plus"
-                        onClick={() => {this.setState({ addRuleVisible: true })}} />
+                <Button onClick={() => {this.setState({ addRuleVisible: true })}}>
+                    管理事件定义
+                </Button>
                 <Modal title="定义事件"
                        visible={this.state.addRuleVisible}
                        footer={[<Button key="close" onClick={() => {this.setState({ addRuleVisible: false })}}>Close</Button>]}
