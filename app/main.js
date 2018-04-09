@@ -87,6 +87,7 @@ app.on('ready', async () => {
       });
     } else {
       mainWindow.on('closed', () => {
+        workerWindow && workerWindow.close()
         mainWindow = null;
       });
     }

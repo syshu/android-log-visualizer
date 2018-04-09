@@ -29,7 +29,7 @@ const initialState = {
         exam1: 1
     }
 };
-console.log('state after creating store', store.getState())
+//console.log('state after creating store', store.getState())
 const routerHistory = syncHistoryWithStore(hashHistory, store);
 const rootElement = document.querySelector(document.currentScript.getAttribute('data-container'));
 ReactDOM.render(
