@@ -43,7 +43,7 @@ class ManageRulesDiv extends Component {
       <div className="manage-rules-div">
         <p>编辑事件定义</p>
         <ul>
-          {this.state.rules.map((rule) => (<li key={rule}><Card><EditRuleLi key={rule} rule={rule} onRemove={this.deleteRule.bind(this)}/></Card></li>))}
+          {this.state.rules.map((rule) => (<li key={rule}><EditRuleLi key={rule} rule={rule} onRemove={this.deleteRule.bind(this)}/></li>))}
         </ul>
         <Button onClick={this.addRule.bind(this)} >新增事件</Button>
       </div>

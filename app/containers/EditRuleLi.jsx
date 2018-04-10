@@ -6,11 +6,13 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Select, Card, Button, Input } from 'antd'
+import { Select, Card, Button, Input, Collapse } from 'antd'
 import _ from 'underscore'
+import eventTypes from './EditRuleLiDetails/eventTypes';
 const { Option } = Select
 const Immutable = require('seamless-immutable').static
 const setIn = Immutable.setIn
+const Panel = Collapse.Panel
 
 /**
  * @prop rule: {id: string, type: string, meta: Object}
@@ -52,17 +54,16 @@ class EditRuleLi extends Component {
 
   render () {
     return (
-      <section>
+      <Collapse borderd={false}><Panel header={`${eventTypes[this.props.rule.type].displayName}: ${this.props.rule.meta.title}${this.modified?' (未保存)':''}`}>
         <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}} placeholder="事件类型" style={{minWidth: '8em'}}>
-          <Option key="INST">简单事件</Option>
-          <Option key="DURA">持续性事件</Option>
+          {Object.keys(eventTypes).map((key) => (<Option key={key}>{eventTypes[key].displayName}</Option>))}
         </Select>
         <Input placeholder="title" value={this.state.rule.meta.title} onChange={({target}) => {this.setState((state) => ({rule: setIn(state.rule, ['meta', 'title'], target.value)}))}} style={{maxWidth: '10em'}}/>
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
         <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的事件定义</span>}
         {!this.props.isNewRule && <Button onClick={this.props.onRemove.bind(this)}>删除</Button>}
-      </section>
+      </Panel></Collapse>
     )
   }
 }
