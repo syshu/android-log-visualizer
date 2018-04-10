@@ -7,7 +7,7 @@
 import React, { Component } from 'react'
 import EditRuleLi from './EditRuleLi'
 import { connect } from 'react-redux'
-import { Button } from 'antd'
+import { Button, Card } from 'antd'
 import uuid from 'uuid'
 
 class ManageRulesDiv extends Component {
@@ -43,7 +43,7 @@ class ManageRulesDiv extends Component {
       <div className="manage-rules-div">
         <p>编辑事件定义</p>
         <ul>
-          {this.state.rules.map((rule) => (<EditRuleLi key={rule} rule={rule} onRemove={this.deleteRule.bind(this)}/>))}
+          {this.state.rules.map((rule) => (<li key={rule}><Card><EditRuleLi key={rule} rule={rule} onRemove={this.deleteRule.bind(this)}/></Card></li>))}
         </ul>
         <Button onClick={this.addRule.bind(this)} >新增事件</Button>
       </div>
