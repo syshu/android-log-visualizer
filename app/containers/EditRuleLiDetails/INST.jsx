@@ -19,10 +19,12 @@ let Immutable = require('seamless-immutable').static
 let setIn = Immutable.setIn
 
 let INST = ({rule, receiveRule}) => (
-  <div className="detail">
+  <section className="detail">
+    <label>关键词</label>
     <Input placeholder="keyword TODO keywords" value={rule.meta.keywords && rule.meta.keywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'keywords'], [target.value]))} />
+    <label>标签</label>
     <Input placeholder="tag" value={rule.meta.tag} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'tag'], target.value))} />
-  </div>
+  </section>
 )
 
 module.exports = INST

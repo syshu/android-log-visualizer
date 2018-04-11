@@ -36,10 +36,18 @@ body {
   .manage-rules-div ul li {
     margin: 0.5em 0;
     display: block; }
-    .manage-rules-div ul li .detail {
+    .manage-rules-div ul li section {
       display: flex;
       width: 100%;
-      flex-flow: row nowrap; }
+      flex-flow: row wrap; }
+    .manage-rules-div ul li .ant-select-selection, .manage-rules-div ul li input {
+      width: 12em; }
+    .manage-rules-div ul li label {
+      text-align: right;
+      margin-right: 0.75em;
+      width: 6em; }
+      .manage-rules-div ul li label::after {
+        content: ':'; }
 
 .launch-container {
   position: fixed;

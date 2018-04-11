@@ -6,7 +6,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Select, Card, Button, Input, Collapse } from 'antd'
+import { Select, Card, Button, Collapse, Input } from 'antd'
+import Checker from '../components/Checker'
 import _ from 'underscore'
 import eventTypes from './EditRuleLiDetails/eventTypes';
 const { Option } = Select
@@ -54,15 +55,21 @@ class EditRuleLi extends Component {
 
   render () {
     return (
-      <Collapse borderd={false}><Panel header={`${eventTypes[this.props.rule.type].displayName}: ${this.props.rule.meta.title}${this.modified?' (未保存)':''}`}>
-        <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}} placeholder="事件类型" style={{minWidth: '8em'}}>
-          {Object.keys(eventTypes).map((key) => (<Option key={key}>{eventTypes[key].displayName}</Option>))}
-        </Select>
-        <Input placeholder="title" value={this.state.rule.meta.title} onChange={({target}) => {this.setState((state) => ({rule: setIn(state.rule, ['meta', 'title'], target.value)}))}} style={{maxWidth: '10em'}}/>
+      <Collapse borderd={false}><Panel header={`${this.props.rule.type?eventTypes[this.props.rule.type].displayName:'新建事件'}: ${this.props.rule.meta.title || '设置事件的搜索规则后保存'}${this.modified?' (未保存)':''}`}>
+        <section>
+          <label>类型</label>
+          <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}} placeholder="事件类型" style={{minWidth: '8em'}}>
+            {Object.keys(eventTypes).map((key) => (<Option key={key}>{eventTypes[key].displayName}</Option>))}
+          </Select>
+          <label>名称</label>
+          <Input placeholder="title" value={this.state.rule.meta.title} onChange={({target}) => {this.setState((state) => ({rule: setIn(state.rule, ['meta', 'title'], target.value)}))}} />
+        </section>
+        <section>
         {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
         <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
         <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的事件定义</span>}
         {!this.props.isNewRule && <Button onClick={this.props.onRemove.bind(this)}>删除</Button>}
+        </section>
       </Panel></Collapse>
     )
   }

@@ -44,10 +44,21 @@ body{
 		li {
 			margin: 0.5em 0;
 			display: block;
-			.detail {
+			section {
 				display: flex;
 				width: 100%;
-				flex-flow: row nowrap;
+				flex-flow: row wrap;
+			}
+			.ant-select-selection, input {
+				width: 12em;
+			}
+			label {
+				&::after {
+					content: ':';
+				}
+				text-align: right;
+				margin-right: 0.75em;
+				width: 6em;
 			}
 		}
 	}
