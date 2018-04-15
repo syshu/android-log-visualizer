@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import QueueAnim from 'rc-queue-anim';
+import PropTypes from 'prop-types'
 
 export default class App extends Component {
   static propTypes = {
