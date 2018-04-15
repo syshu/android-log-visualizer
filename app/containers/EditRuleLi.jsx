@@ -56,20 +56,24 @@ class EditRuleLi extends Component {
   render () {
     return (
       <Collapse borderd={false}><Panel header={`${this.props.rule.type?eventTypes[this.props.rule.type].displayName:'新建事件'}: ${this.props.rule.meta.title || '设置事件的搜索规则后保存'}${this.modified?' (未保存)':''}`}>
-        <section>
-          <label>类型</label>
-          <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}} placeholder="事件类型" style={{minWidth: '8em'}}>
-            {Object.keys(eventTypes).map((key) => (<Option key={key}>{eventTypes[key].displayName}</Option>))}
-          </Select>
-          <label>名称</label>
-          <Input placeholder="title" value={this.state.rule.meta.title} onChange={({target}) => {this.setState((state) => ({rule: setIn(state.rule, ['meta', 'title'], target.value)}))}} />
-        </section>
-        <section>
-        {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
-        <Button shape="circle" icon="check" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)} />
-        <Button shape="circle" icon="close" style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}} />{this.props.isNewRule && this.modified && <span>按勾号保存新创建的事件定义</span>}
-        {!this.props.isNewRule && <Button onClick={this.props.onRemove.bind(this)}>删除</Button>}
-        </section>
+        <div className="edit-rule-li-container">
+          <section>
+            <div className="labeled-type">
+              <Select value={this.state.rule.type} onChange={(value) => {this.ruleType = value}} placeholder="事件类型">
+                {Object.keys(eventTypes).map((key) => (<Option key={key}>{eventTypes[key].displayName}</Option>))}
+              </Select>
+            </div>
+            <div className="labeled-name">
+              <Input placeholder="title" value={this.state.rule.meta.title} onChange={({target}) => {this.setState((state) => ({rule: setIn(state.rule, ['meta', 'title'], target.value)}))}} />
+            </div>
+            {((RuleType) => (<RuleType rule={this.state.rule} receiveRule={(rule) => this.setState({rule})} />))(require('./EditRuleLiDetails/' + this.state.rule.type))}
+          </section>
+          <aside>
+            <Button style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={this.save.bind(this)}>保存</Button>
+            <Button style={{visibility: this.modified ? 'visible' : 'hidden'}} onClick={() => {this.modified = false}}>重置</Button>{this.props.isNewRule && this.modified && <span>按勾号保存新创建的事件定义</span>}
+            {!this.props.isNewRule && <Button onClick={this.props.onRemove.bind(this)}>删除</Button>}
+          </aside>
+        </div>
       </Panel></Collapse>
     )
   }

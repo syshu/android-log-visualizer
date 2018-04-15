@@ -20,16 +20,20 @@ let setIn = Immutable.setIn
 
 function DURA ({ rule, receiveRule }) {
   return (
-    <section className="detail">
-      <label>开始关键词</label>
+    [
+      <div key="starter-keyword" className="labeled-starter-keyword">
       <Input placeholder="starter keyword TODO keywords" value={rule.meta.starterKeywords && rule.meta.starterKeywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'starterKeywords'], [target.value]))} />
-      <label>结束关键词</label>
+      </div>,
+      <div key="ender-keyword" className="labeled-ender-keyword">
       <Input placeholder="ender keyword TODO keywords" value={rule.meta.enderKeywords && rule.meta.enderKeywords[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'enderKeywords'], [target.value]))} />
-      <label>以...归类</label>
+      </div>,
+      <div key="classify-by" className="labeled-classify-by">
       <Input placeholder="classify by TODO strings" value={rule.meta.classifyBy && rule.meta.classifyBy[0]} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'classifyBy'], [target.value]))} />
-      <label>标签</label>
+      </div>,
+      <div key="tag" className="labeled-tag">
       <Input placeholder="tag" value={rule.meta.tag} onChange={({target}) => receiveRule(setIn(rule, ['meta', 'tag'], target.value))} />
-    </section>
+      </div>
+    ]
   )
 }
 

@@ -205,7 +205,8 @@ class Tab extends Component {
                        visible={this.state.addRuleVisible}
                        footer={[<Button key="close" onClick={() => {this.setState({ addRuleVisible: false })}}>Close</Button>]}
                        onOk={null}
-                       onCancel={() => {this.setState({ addRuleVisible: false })}} >
+                       onCancel={() => {this.setState({ addRuleVisible: false })}} 
+                       width={'100%'} >
                     <ManageRulesDiv />
                 </Modal>
                 <br />

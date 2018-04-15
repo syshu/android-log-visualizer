@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "ManageRulesDiv.css",
+	"sources": [
+		"../sass/ManageRulesDiv.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AACC,iBADgB,CAChB,EAAE,CAAC;EACF,OAAO,EAAE,KAAK,GAiBd;EAnBF,AAGE,iBAHe,CAChB,EAAE,CAED,EAAE,CAAC;IACF,MAAM,EAAE,OAAO;IACf,OAAO,EAAE,KAAK;IACd;;;;;;KAME;IACF;;;;KAIE,EACF"
+}

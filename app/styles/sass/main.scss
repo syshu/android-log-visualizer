@@ -1,3 +1,7 @@
+@import "./EditRuleLi";
+@import "./Login";
+@import "./ManageRulesDiv";
+
 body{
 	overflow: hidden;
 }
@@ -13,71 +17,8 @@ body{
 	height: 100%;
 }
 
-// 登陆页
-.login-body {
-	display: flex;
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	.login-card {
-		width: 360px;
-		border-radius: 4px;
-		overflow: hidden;
-		.loginSubmit {
-			margin-top: 20px;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-	}
-}
-
 .add-rule-modal {
 	width: 100px;
 	height: 100px;
 	background-color: red;
-}
-
-.manage-rules-div {
-	ul {
-		display: block;
-		li {
-			margin: 0.5em 0;
-			display: block;
-			section {
-				display: flex;
-				width: 100%;
-				flex-flow: row wrap;
-			}
-			.ant-select-selection, input {
-				width: 12em;
-			}
-			label {
-				&::after {
-					content: ':';
-				}
-				text-align: right;
-				margin-right: 0.75em;
-				width: 6em;
-			}
-		}
-	}
-}
-
-.launch-container {
-	position: fixed;
-	top: 0; bottom: 0; left: 0; right: 0;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: nowrap;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0 0 50em white inset;
-	background: repeating-linear-gradient(120deg, rgb(242,242,242), rgb(242,242,242) 5%, rgb(255,255,255) 5%, rgb(255,255,255) 10%);
-	* {
-		margin: 0.5em;
-	}
-	h1 {
-		text-shadow: 0 1px 3px rgba(26, 26, 26, .1)
-	}
 }
